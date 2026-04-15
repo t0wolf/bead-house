@@ -1,0 +1,259 @@
+:root {
+  color: #112031;
+  background:
+    radial-gradient(circle at top left, rgba(255, 197, 61, 0.35), transparent 30%),
+    radial-gradient(circle at top right, rgba(255, 119, 119, 0.25), transparent 22%),
+    linear-gradient(180deg, #fff8ea 0%, #f8f2e7 100%);
+  font-family: "Avenir Next", "PingFang SC", "Helvetica Neue", sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+button,
+select,
+input {
+  font: inherit;
+}
+
+.page-shell {
+  max-width: 1580px;
+  margin: 0 auto;
+  padding: 32px 20px 48px;
+}
+
+.hero-card,
+.panel {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(17, 32, 49, 0.08);
+  backdrop-filter: blur(14px);
+  border-radius: 28px;
+  box-shadow: 0 20px 45px rgba(17, 32, 49, 0.08);
+}
+
+.hero-card {
+  display: grid;
+  gap: 24px;
+  padding: 28px;
+  margin-bottom: 24px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #b45722;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(2rem, 4vw, 3.8rem);
+  line-height: 0.95;
+}
+
+.hero-copy {
+  max-width: 620px;
+  margin-top: 12px;
+  color: rgba(17, 32, 49, 0.8);
+}
+
+.controls-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  align-items: end;
+}
+
+.input-group {
+  display: grid;
+  gap: 8px;
+}
+
+.input-group span {
+  font-size: 0.9rem;
+  color: rgba(17, 32, 49, 0.75);
+}
+
+select,
+input[type="number"],
+.upload-button span {
+  min-height: 48px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(17, 32, 49, 0.12);
+  background: #ffffff;
+}
+
+input[type="number"] {
+  width: 100%;
+}
+
+.upload-button {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  align-self: end;
+}
+
+.upload-button input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.upload-button span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ffb54d 0%, #ff7f50 100%);
+  color: #fff;
+  border: none;
+  font-weight: 700;
+}
+
+.toggle-card {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(17, 32, 49, 0.12);
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.toggle-card span {
+  color: rgba(17, 32, 49, 0.82);
+  font-size: 0.95rem;
+}
+
+.panel {
+  padding: 20px;
+}
+
+.viewer-panel {
+  margin-bottom: 24px;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.panel-header span {
+  color: rgba(17, 32, 49, 0.65);
+  font-size: 0.92rem;
+}
+
+.pattern-canvas-wrap,
+.pattern-canvas,
+.empty-state {
+  width: 100%;
+  border-radius: 18px;
+  border: 1px solid rgba(17, 32, 49, 0.08);
+  background: linear-gradient(180deg, #fff 0%, #fff8f1 100%);
+}
+
+.pattern-canvas {
+  display: block;
+}
+
+.pattern-canvas-wrap {
+  overflow: hidden;
+  padding: 14px;
+}
+
+.empty-state {
+  min-height: 420px;
+  display: grid;
+  place-items: center;
+  color: rgba(17, 32, 49, 0.45);
+  padding: 20px;
+  text-align: center;
+}
+
+.color-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.color-chip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(17, 32, 49, 0.08);
+  text-align: left;
+  cursor: pointer;
+  appearance: none;
+  transition:
+    transform 120ms ease,
+    border-color 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.color-chip:hover {
+  transform: translateY(-1px);
+  border-color: rgba(17, 32, 49, 0.18);
+}
+
+.color-chip.is-active {
+  border-color: rgba(17, 32, 49, 0.8);
+  box-shadow: 0 14px 30px rgba(17, 32, 49, 0.12);
+}
+
+.color-chip-copy {
+  display: grid;
+  gap: 4px;
+}
+
+.color-chip-copy span {
+  color: rgba(17, 32, 49, 0.7);
+  font-size: 0.92rem;
+}
+
+.swatch {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  border: 1px solid rgba(17, 32, 49, 0.12);
+  flex-shrink: 0;
+}
+
+.error-text {
+  color: #b42318;
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .page-shell {
+    padding-inline: 14px;
+  }
+
+  .pattern-canvas-wrap {
+    padding: 10px;
+  }
+}
