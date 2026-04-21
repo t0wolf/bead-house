@@ -24,6 +24,10 @@ input {
   font: inherit;
 }
 
+input[type="text"] {
+  font: inherit;
+}
+
 .page-shell {
   max-width: 1580px;
   margin: 0 auto;
@@ -107,6 +111,7 @@ h1 {
 
 select,
 input[type="number"],
+.featured-controls input[type="text"],
 .upload-button span {
   min-height: 48px;
   padding: 12px 16px;
@@ -167,6 +172,10 @@ input[type="number"] {
   margin-bottom: 24px;
 }
 
+.featured-panel {
+  margin-top: 24px;
+}
+
 .panel-header {
   display: flex;
   align-items: center;
@@ -211,6 +220,84 @@ input[type="number"] {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 14px;
+}
+
+.featured-controls {
+  display: grid;
+  grid-template-columns: 1.2fr 1.6fr minmax(220px, 0.9fr);
+  gap: 16px;
+  align-items: end;
+  margin-bottom: 16px;
+}
+
+.featured-description {
+  min-width: 0;
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 18px;
+  margin-top: 16px;
+}
+
+.featured-card {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 20px;
+  background: rgba(255, 245, 249, 0.86);
+  border: 1px solid rgba(86, 26, 57, 0.1);
+}
+
+.featured-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 1px solid rgba(86, 26, 57, 0.08);
+  background: #fff7fb;
+}
+
+.featured-meta {
+  display: grid;
+  gap: 6px;
+}
+
+.featured-source {
+  color: rgba(163, 18, 87, 0.8);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.featured-meta p {
+  color: rgba(34, 18, 28, 0.7);
+  font-size: 0.92rem;
+}
+
+.featured-delete {
+  min-height: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(163, 18, 87, 0.18);
+  background: rgba(255, 232, 242, 0.95);
+  color: #a31257;
+  cursor: pointer;
+}
+
+.featured-hint {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: rgba(255, 232, 242, 0.6);
+  color: rgba(34, 18, 28, 0.6);
+  font-size: 0.88rem;
+}
+
+.featured-empty {
+  min-height: 240px;
+  margin-top: 16px;
 }
 
 .color-chip {
@@ -271,5 +358,9 @@ input[type="number"] {
 
   .pattern-canvas-wrap {
     padding: 10px;
+  }
+
+  .featured-controls {
+    grid-template-columns: 1fr;
   }
 }

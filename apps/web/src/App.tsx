@@ -32,6 +32,18 @@ const TRANSPARENCY_OPTIONS: Array<{
   { value: 'white', label: '透明区域转白色拼豆' }
 ]
 
+type FeaturedImage = {
+  id: string
+  title: string
+  description: string
+  imageUrl: string
+  createdAt: number
+  source: 'preset' | 'local'
+}
+
+const FEATURED_IMAGES_STORAGE_KEY = 'bead-house-featured-images'
+const FEATURED_IMAGES_MANIFEST_URL = '/featured-images/manifest.json'
+
 export default function App() {
   const [sourceImageData, setSourceImageData] = useState<ImageData | null>(null)
   const [sourceName, setSourceName] = useState<string | undefined>()
@@ -48,11 +60,96 @@ export default function App() {
   const [showLabels, setShowLabels] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const [featuredImages, setFeaturedImages] = useState<FeaturedImage[]>([])
+  const [presetFeaturedImages, setPresetFeaturedImages] = useState<FeaturedImage[]>([])
+  const [favoriteTitle, setFavoriteTitle] = useState('')
+  const [favoriteDescription, setFavoriteDescription] = useState('')
+  const [favoriteError, setFavoriteError] = useState<string | null>(null)
+  const [savingFavorite, setSavingFavorite] = useState(false)
 
   const colorSummary = useMemo(
     () => (pattern ? patternToColorSummary(pattern, ownedMardPalette) : []),
     [pattern]
   )
+  const allFeaturedImages = useMemo(
+    () =>
+      [...presetFeaturedImages, ...featuredImages].sort(
+        (left, right) => right.createdAt - left.createdAt
+      ),
+    [featuredImages, presetFeaturedImages]
+  )
+
+  useEffect(() => {
+    let active = true
+
+    async function loadPresetImages() {
+      try {
+        const response = await fetch(FEATURED_IMAGES_MANIFEST_URL)
+        if (!response.ok) {
+          return
+        }
+
+        const parsed = (await response.json()) as Array<{
+          id: string
+          title: string
+          description?: string
+          imageUrl: string
+          createdAt?: number
+        }>
+
+        if (!active || !Array.isArray(parsed)) {
+          return
+        }
+
+        setPresetFeaturedImages(
+          parsed.map((item, index) => ({
+            id: item.id,
+            title: item.title,
+            description: item.description ?? '',
+            imageUrl: item.imageUrl,
+            createdAt: item.createdAt ?? index,
+            source: 'preset'
+          }))
+        )
+      } catch {
+        setPresetFeaturedImages([])
+      }
+    }
+
+    void loadPresetImages()
+
+    return () => {
+      active = false
+    }
+  }, [])
+
+  useEffect(() => {
+    try {
+      const raw = window.localStorage.getItem(FEATURED_IMAGES_STORAGE_KEY)
+      if (!raw) {
+        return
+      }
+
+      const parsed = JSON.parse(raw) as FeaturedImage[]
+      if (Array.isArray(parsed)) {
+        setFeaturedImages(
+          parsed.map((item) => ({
+            ...item,
+            source: 'local' as const
+          }))
+        )
+      }
+    } catch {
+      setFeaturedImages([])
+    }
+  }, [])
+
+  useEffect(() => {
+    window.localStorage.setItem(
+      FEATURED_IMAGES_STORAGE_KEY,
+      JSON.stringify(featuredImages)
+    )
+  }, [featuredImages])
 
   useEffect(() => {
     if (!sourceImageData) {
@@ -119,6 +216,44 @@ export default function App() {
 
   function toggleColorHighlight(colorCode: string) {
     setSelectedColorCode((current) => (current === colorCode ? null : colorCode))
+  }
+
+  async function handleFavoriteUpload(file: File | null) {
+    if (!file) {
+      return
+    }
+
+    setSavingFavorite(true)
+    setFavoriteError(null)
+
+    try {
+      const imageUrl = await readFileAsDataUrl(file)
+      const title = favoriteTitle.trim() || file.name.replace(/\.[^.]+$/, '')
+      const description = favoriteDescription.trim()
+
+      setFeaturedImages((current) => [
+        {
+          id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+          title,
+          description,
+          imageUrl,
+          createdAt: Date.now(),
+          source: 'local'
+        },
+        ...current
+      ])
+
+      setFavoriteTitle('')
+      setFavoriteDescription('')
+    } catch (nextError) {
+      setFavoriteError(nextError instanceof Error ? nextError.message : '收藏图片失败')
+    } finally {
+      setSavingFavorite(false)
+    }
+  }
+
+  function removeFeaturedImage(id: string) {
+    setFeaturedImages((current) => current.filter((item) => item.id !== id))
   }
 
   return (
@@ -317,6 +452,104 @@ export default function App() {
           <div className="empty-state">生成图纸后会自动统计颜色使用数量</div>
         )}
       </section>
+
+      <section className="panel featured-panel">
+        <header className="panel-header">
+          <h2>精选图纸</h2>
+          <span>{allFeaturedImages.length} 张图片</span>
+        </header>
+
+        <div className="featured-controls">
+          <label className="input-group">
+            <span>图片标题</span>
+            <input
+              type="text"
+              value={favoriteTitle}
+              placeholder="比如：连麻 Swimming"
+              onChange={(event) => setFavoriteTitle(event.target.value)}
+            />
+          </label>
+
+          <label className="input-group featured-description">
+            <span>备注</span>
+            <input
+              type="text"
+              value={favoriteDescription}
+              placeholder="可以写专辑、角色、来源或灵感"
+              onChange={(event) => setFavoriteDescription(event.target.value)}
+            />
+          </label>
+
+          <label className="upload-button">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(event) =>
+                handleFavoriteUpload(event.target.files?.[0] ?? null)
+              }
+            />
+            <span>{savingFavorite ? '保存中…' : '添加到精选图纸'}</span>
+          </label>
+        </div>
+
+        <p className="inventory-note">
+          这里会同时显示你网页上传的本地收藏，以及 `public/featured-images/manifest.json`
+          里配置的预置图片。放进 VSCode 的静态图片也能直接展示。
+        </p>
+
+        {favoriteError ? <p className="error-text">{favoriteError}</p> : null}
+
+        {allFeaturedImages.length > 0 ? (
+          <div className="featured-grid">
+            {allFeaturedImages.map((item) => (
+              <article key={item.id} className="featured-card">
+                <img
+                  className="featured-image"
+                  src={item.imageUrl}
+                  alt={item.title}
+                />
+                <div className="featured-meta">
+                  <strong>{item.title}</strong>
+                  <span className="featured-source">
+                    {item.source === 'preset' ? '预置图片' : '本地收藏'}
+                  </span>
+                  {item.description ? <p>{item.description}</p> : null}
+                </div>
+                {item.source === 'local' ? (
+                  <button
+                    type="button"
+                    className="featured-delete"
+                    onClick={() => removeFeaturedImage(item.id)}
+                  >
+                    删除
+                  </button>
+                ) : (
+                  <div className="featured-hint">在 `public/featured-images` 中维护</div>
+                )}
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div className="empty-state featured-empty">
+            这里还没有收藏的图片。你可以把自己喜欢的专辑封面、奶龙图或者参考图先存进来。
+          </div>
+        )}
+      </section>
     </main>
   )
+}
+
+function readFileAsDataUrl(file: File) {
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => {
+      if (typeof reader.result === 'string') {
+        resolve(reader.result)
+        return
+      }
+      reject(new Error('图片读取失败'))
+    }
+    reader.onerror = () => reject(new Error('图片读取失败'))
+    reader.readAsDataURL(file)
+  })
 }

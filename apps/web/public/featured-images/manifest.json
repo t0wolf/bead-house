@@ -1,0 +1,10 @@
+[
+  {
+    "id": "demo-cover-1",
+    "title": "示例精选图",
+    "description": "把你放进 public/featured-images 的图片路径写在这里。",
+    "imageUrl": "/featured-images/example-cover.jpg",
+    "createdAt": 1
+  }
+]
+
