@@ -49,6 +49,7 @@ export default function App() {
   const [sourceName, setSourceName] = useState<string | undefined>()
   const [pattern, setPattern] = useState<BeadPattern | null>(null)
   const [selectedColorCode, setSelectedColorCode] = useState<string | null>(null)
+  const [selectedFeaturedId, setSelectedFeaturedId] = useState<string | null>(null)
   const [gridWidth, setGridWidth] = useState(32)
   const [gridHeight, setGridHeight] = useState(32)
   const [maxColors, setMaxColors] = useState(12)
@@ -205,6 +206,7 @@ export default function App() {
       setSourceImageData(imageData)
       setSourceName(file.name)
       setSelectedColorCode(null)
+      setSelectedFeaturedId(null)
     } catch (nextError) {
       setError(nextError instanceof Error ? nextError.message : '图片读取失败')
       setSourceImageData(null)
@@ -254,6 +256,25 @@ export default function App() {
 
   function removeFeaturedImage(id: string) {
     setFeaturedImages((current) => current.filter((item) => item.id !== id))
+    setSelectedFeaturedId((current) => (current === id ? null : current))
+  }
+
+  async function handleFeaturedImageSelect(item: FeaturedImage) {
+    setLoading(true)
+    setError(null)
+
+    try {
+      const imageData = await readImageDataFromUrl(item.imageUrl)
+      setSourceImageData(imageData)
+      setSourceName(item.title)
+      setSelectedColorCode(null)
+      setSelectedFeaturedId(item.id)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    } catch (nextError) {
+      setError(nextError instanceof Error ? nextError.message : '精选图片读取失败')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -502,11 +523,17 @@ export default function App() {
         {allFeaturedImages.length > 0 ? (
           <div className="featured-grid">
             {allFeaturedImages.map((item) => (
-              <article key={item.id} className="featured-card">
+              <article
+                key={item.id}
+                className={`featured-card ${
+                  selectedFeaturedId === item.id ? 'is-active' : ''
+                }`}
+              >
                 <img
                   className="featured-image"
                   src={item.imageUrl}
                   alt={item.title}
+                  onClick={() => void handleFeaturedImageSelect(item)}
                 />
                 <div className="featured-meta">
                   <strong>{item.title}</strong>
@@ -515,11 +542,21 @@ export default function App() {
                   </span>
                   {item.description ? <p>{item.description}</p> : null}
                 </div>
+                <button
+                  type="button"
+                  className="featured-open"
+                  onClick={() => void handleFeaturedImageSelect(item)}
+                >
+                  载入到交互式看板
+                </button>
                 {item.source === 'local' ? (
                   <button
                     type="button"
                     className="featured-delete"
-                    onClick={() => removeFeaturedImage(item.id)}
+                    onClick={(event) => {
+                      event.stopPropagation()
+                      removeFeaturedImage(item.id)
+                    }}
                   >
                     删除
                   </button>
@@ -551,5 +588,27 @@ function readFileAsDataUrl(file: File) {
     }
     reader.onerror = () => reject(new Error('图片读取失败'))
     reader.readAsDataURL(file)
+  })
+}
+
+function readImageDataFromUrl(imageUrl: string) {
+  return new Promise<ImageData>((resolve, reject) => {
+    const image = new Image()
+    image.onload = () => {
+      const canvas = document.createElement('canvas')
+      canvas.width = image.naturalWidth
+      canvas.height = image.naturalHeight
+
+      const context = canvas.getContext('2d')
+      if (!context) {
+        reject(new Error('无法创建图片画布'))
+        return
+      }
+
+      context.drawImage(image, 0, 0)
+      resolve(context.getImageData(0, 0, canvas.width, canvas.height))
+    }
+    image.onerror = () => reject(new Error('精选图片读取失败'))
+    image.src = imageUrl
   })
 }

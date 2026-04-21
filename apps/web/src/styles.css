@@ -248,6 +248,15 @@ input[type="number"] {
   border-radius: 20px;
   background: rgba(255, 245, 249, 0.86);
   border: 1px solid rgba(86, 26, 57, 0.1);
+  transition:
+    border-color 120ms ease,
+    box-shadow 120ms ease,
+    transform 120ms ease;
+}
+
+.featured-card.is-active {
+  border-color: rgba(207, 43, 122, 0.9);
+  box-shadow: 0 16px 30px rgba(109, 24, 71, 0.16);
 }
 
 .featured-image {
@@ -257,6 +266,7 @@ input[type="number"] {
   border-radius: 16px;
   border: 1px solid rgba(86, 26, 57, 0.08);
   background: #fff7fb;
+  cursor: pointer;
 }
 
 .featured-meta {
@@ -282,6 +292,16 @@ input[type="number"] {
   background: rgba(255, 232, 242, 0.95);
   color: #a31257;
   cursor: pointer;
+}
+
+.featured-open {
+  min-height: 42px;
+  border-radius: 12px;
+  border: 1px solid rgba(207, 43, 122, 0.18);
+  background: linear-gradient(135deg, #ff5ca8 0%, #d81b74 100%);
+  color: #fff;
+  cursor: pointer;
+  font-weight: 700;
 }
 
 .featured-hint {
