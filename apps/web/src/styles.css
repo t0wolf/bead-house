@@ -72,6 +72,15 @@ h1 {
   color: rgba(17, 32, 49, 0.8);
 }
 
+.inventory-note {
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(255, 245, 224, 0.82);
+  border: 1px solid rgba(180, 87, 34, 0.16);
+  color: rgba(17, 32, 49, 0.82);
+  font-size: 0.95rem;
+}
+
 .controls-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));

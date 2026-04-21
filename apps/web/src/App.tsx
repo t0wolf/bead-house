@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { mardPalette } from '@bead/bead-palettes'
+import { mardPalette, ownedMardPalette } from '@bead/bead-palettes'
 import {
   convertImageToPattern,
   patternToColorSummary,
@@ -50,7 +50,7 @@ export default function App() {
   const [loading, setLoading] = useState(false)
 
   const colorSummary = useMemo(
-    () => (pattern ? patternToColorSummary(pattern, mardPalette) : []),
+    () => (pattern ? patternToColorSummary(pattern, ownedMardPalette) : []),
     [pattern]
   )
 
@@ -62,7 +62,7 @@ export default function App() {
     try {
       const nextPattern = convertImageToPattern({
         imageData: sourceImageData,
-        palette: mardPalette,
+        palette: ownedMardPalette,
         sourceName,
         targetWidth: gridWidth,
         targetHeight: gridHeight,
@@ -128,7 +128,7 @@ export default function App() {
           <p className="eyebrow">MARD Beads Studio</p>
           <h1>郑皓钧的拼豆小屋</h1>
           <p className="hero-copy">
-            自定义宽高、限色、透明背景和抖动策略，生成带坐标轴、色号标注和单色高亮的 MARD 拼豆图纸。
+            自定义宽高、限色、透明背景和抖动策略，按你现有的 MARD 豆子库存生成带坐标轴和色号标注的拼豆图纸。
           </p>
         </div>
 
@@ -160,7 +160,7 @@ export default function App() {
             <input
               type="number"
               min={0}
-              max={mardPalette.length}
+              max={ownedMardPalette.length}
               value={maxColors}
               onChange={(event) => setMaxColors(Number(event.target.value) || 0)}
             />
@@ -248,6 +248,11 @@ export default function App() {
           </label>
         </div>
 
+        <p className="inventory-note">
+          当前库存已限定为 A1-A26、B1-B30、C1-C29、D1-D26、E1-E24、F1-F25、G1-G21、H1-H23、M1-M15，共{' '}
+          {ownedMardPalette.length} 种颜色。
+        </p>
+
         {error ? <p className="error-text">{error}</p> : null}
       </section>
 
@@ -261,12 +266,12 @@ export default function App() {
           ) : null}
         </header>
         {pattern ? (
-          <PatternCanvas
-            pattern={pattern}
-            palette={mardPalette}
-            selectedColorCode={selectedColorCode}
-            showLabels={showLabels}
-          />
+            <PatternCanvas
+              pattern={pattern}
+              palette={ownedMardPalette}
+              selectedColorCode={selectedColorCode}
+              showLabels={showLabels}
+            />
         ) : (
           <div className="empty-state">上传图片后会在这里生成大尺寸图纸看板</div>
         )}

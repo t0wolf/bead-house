@@ -293,5 +293,30 @@ export const mardPalette: BeadPaletteColor[] = [
   { code: 'ZG8', name: 'ZG8', brand: 'mard', rgb: [171, 145, 192] },
 ]
 
+const ownedPrefixes = {
+  A: 26,
+  B: 30,
+  C: 29,
+  D: 26,
+  E: 24,
+  F: 25,
+  G: 21,
+  H: 23,
+  M: 15
+} as const
+
+export const ownedMardPalette = mardPalette.filter((color) => {
+  const match = color.code.match(/^([A-Z]+)(\d+)$/)
+  if (!match) {
+    return false
+  }
+
+  const prefix = match[1] as keyof typeof ownedPrefixes
+  const index = Number(match[2])
+  const maxIndex = ownedPrefixes[prefix]
+
+  return maxIndex !== undefined && index >= 1 && index <= maxIndex
+})
+
 // Backward-compatible alias while the app finishes moving off the old placeholder name.
 export const perlerPalette = mardPalette
