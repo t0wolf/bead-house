@@ -127,6 +127,7 @@ export default function App() {
         <div>
           <p className="eyebrow">MARD Beads Studio</p>
           <h1>郑皓钧的拼豆小屋</h1>
+          <p className="hero-signature">-------design by 潘瑞</p>
           <p className="hero-copy">
             自定义宽高、限色、透明背景和抖动策略，按你现有的 MARD 豆子库存生成带坐标轴和色号标注的拼豆图纸。
           </p>

@@ -1,9 +1,9 @@
 :root {
-  color: #112031;
+  color: #22121c;
   background:
-    radial-gradient(circle at top left, rgba(255, 197, 61, 0.35), transparent 30%),
-    radial-gradient(circle at top right, rgba(255, 119, 119, 0.25), transparent 22%),
-    linear-gradient(180deg, #fff8ea 0%, #f8f2e7 100%);
+    radial-gradient(circle at top left, rgba(255, 118, 191, 0.3), transparent 28%),
+    radial-gradient(circle at top right, rgba(255, 182, 213, 0.24), transparent 24%),
+    linear-gradient(180deg, #ffd0e6 0%, #f8b8d2 52%, #f5a8c9 100%);
   font-family: "Avenir Next", "PingFang SC", "Helvetica Neue", sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -32,11 +32,11 @@ input {
 
 .hero-card,
 .panel {
-  background: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(17, 32, 49, 0.08);
+  background: rgba(255, 244, 249, 0.82);
+  border: 1px solid rgba(86, 26, 57, 0.1);
   backdrop-filter: blur(14px);
   border-radius: 28px;
-  box-shadow: 0 20px 45px rgba(17, 32, 49, 0.08);
+  box-shadow: 0 20px 45px rgba(109, 24, 71, 0.12);
 }
 
 .hero-card {
@@ -48,7 +48,7 @@ input {
 
 .eyebrow {
   margin: 0 0 8px;
-  color: #b45722;
+  color: #cf2b7a;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-size: 0.8rem;
@@ -66,18 +66,25 @@ h1 {
   line-height: 0.95;
 }
 
+.hero-signature {
+  margin-top: 10px;
+  color: rgba(34, 18, 28, 0.62);
+  font-size: 0.92rem;
+  letter-spacing: 0.04em;
+}
+
 .hero-copy {
   max-width: 620px;
   margin-top: 12px;
-  color: rgba(17, 32, 49, 0.8);
+  color: rgba(34, 18, 28, 0.78);
 }
 
 .inventory-note {
   padding: 12px 14px;
   border-radius: 14px;
-  background: rgba(255, 245, 224, 0.82);
-  border: 1px solid rgba(180, 87, 34, 0.16);
-  color: rgba(17, 32, 49, 0.82);
+  background: rgba(255, 230, 241, 0.9);
+  border: 1px solid rgba(207, 43, 122, 0.2);
+  color: rgba(34, 18, 28, 0.84);
   font-size: 0.95rem;
 }
 
@@ -95,7 +102,7 @@ h1 {
 
 .input-group span {
   font-size: 0.9rem;
-  color: rgba(17, 32, 49, 0.75);
+  color: rgba(34, 18, 28, 0.72);
 }
 
 select,
@@ -104,8 +111,8 @@ input[type="number"],
   min-height: 48px;
   padding: 12px 16px;
   border-radius: 14px;
-  border: 1px solid rgba(17, 32, 49, 0.12);
-  background: #ffffff;
+  border: 1px solid rgba(86, 26, 57, 0.12);
+  background: #fff8fb;
 }
 
 input[type="number"] {
@@ -130,7 +137,7 @@ input[type="number"] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #ffb54d 0%, #ff7f50 100%);
+  background: linear-gradient(135deg, #ff5ca8 0%, #d81b74 100%);
   color: #fff;
   border: none;
   font-weight: 700;
@@ -143,12 +150,12 @@ input[type="number"] {
   gap: 12px;
   padding: 12px 16px;
   border-radius: 14px;
-  border: 1px solid rgba(17, 32, 49, 0.12);
-  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(86, 26, 57, 0.12);
+  background: rgba(255, 245, 249, 0.86);
 }
 
 .toggle-card span {
-  color: rgba(17, 32, 49, 0.82);
+  color: rgba(34, 18, 28, 0.82);
   font-size: 0.95rem;
 }
 
@@ -169,7 +176,7 @@ input[type="number"] {
 }
 
 .panel-header span {
-  color: rgba(17, 32, 49, 0.65);
+  color: rgba(34, 18, 28, 0.62);
   font-size: 0.92rem;
 }
 
@@ -178,8 +185,8 @@ input[type="number"] {
 .empty-state {
   width: 100%;
   border-radius: 18px;
-  border: 1px solid rgba(17, 32, 49, 0.08);
-  background: linear-gradient(180deg, #fff 0%, #fff8f1 100%);
+  border: 1px solid rgba(86, 26, 57, 0.08);
+  background: linear-gradient(180deg, #fffafb 0%, #fff1f7 100%);
 }
 
 .pattern-canvas {
@@ -195,7 +202,7 @@ input[type="number"] {
   min-height: 420px;
   display: grid;
   place-items: center;
-  color: rgba(17, 32, 49, 0.45);
+  color: rgba(34, 18, 28, 0.45);
   padding: 20px;
   text-align: center;
 }
@@ -213,8 +220,8 @@ input[type="number"] {
   width: 100%;
   padding: 12px;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(17, 32, 49, 0.08);
+  background: rgba(255, 245, 249, 0.8);
+  border: 1px solid rgba(86, 26, 57, 0.08);
   text-align: left;
   cursor: pointer;
   appearance: none;
@@ -226,12 +233,12 @@ input[type="number"] {
 
 .color-chip:hover {
   transform: translateY(-1px);
-  border-color: rgba(17, 32, 49, 0.18);
+  border-color: rgba(207, 43, 122, 0.32);
 }
 
 .color-chip.is-active {
-  border-color: rgba(17, 32, 49, 0.8);
-  box-shadow: 0 14px 30px rgba(17, 32, 49, 0.12);
+  border-color: rgba(207, 43, 122, 0.9);
+  box-shadow: 0 14px 30px rgba(109, 24, 71, 0.16);
 }
 
 .color-chip-copy {
@@ -240,7 +247,7 @@ input[type="number"] {
 }
 
 .color-chip-copy span {
-  color: rgba(17, 32, 49, 0.7);
+  color: rgba(34, 18, 28, 0.7);
   font-size: 0.92rem;
 }
 
@@ -248,12 +255,12 @@ input[type="number"] {
   width: 36px;
   height: 36px;
   border-radius: 12px;
-  border: 1px solid rgba(17, 32, 49, 0.12);
+  border: 1px solid rgba(86, 26, 57, 0.12);
   flex-shrink: 0;
 }
 
 .error-text {
-  color: #b42318;
+  color: #a31257;
   font-weight: 600;
 }
 
