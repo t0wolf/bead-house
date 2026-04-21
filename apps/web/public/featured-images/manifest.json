@@ -1,10 +1,23 @@
 [
   {
-    "id": "demo-cover-1",
-    "title": "示例精选图",
-    "description": "把你放进 public/featured-images 的图片路径写在这里。",
-    "imageUrl": "/featured-images/example-cover.jpg",
+    "id": "naxiaozizhenshuai",
+    "title": "那小子真帅",
+    "description": "连麻专辑封面",
+    "imageUrl": "/featured-images/那小子真帅.png",
+    "createdAt": 3
+  },
+  {
+    "id": "gouyaogou",
+    "title": "狗咬狗",
+    "description": "专辑封面收藏",
+    "imageUrl": "/featured-images/狗咬狗.png",
+    "createdAt": 2
+  },
+  {
+    "id": "nailong",
+    "title": "奶龙",
+    "description": "奶龙灵感图",
+    "imageUrl": "/featured-images/奶龙.webp",
     "createdAt": 1
   }
 ]
-
